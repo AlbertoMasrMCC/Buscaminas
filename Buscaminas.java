@@ -4,12 +4,9 @@ public class Buscaminas {
 
     public static void main(String [] args) {
 
-        System.out.print("Introduce el número de filas: ");
-        int filas = pedirNumeroPorTeclado();
-        System.out.print("Introduce el número de columnas: ");
-        int columnas = pedirNumeroPorTeclado();
-        System.out.print("Introduce el número de minas: ");
-        int minas = pedirNumeroPorTeclado();
+        int filas = pedirNumeroPorTeclado("Introduce el número de filas: ");
+        int columnas = pedirNumeroPorTeclado("Introduce el número de columnas: ");
+        int minas = pedirNumeroMinasPorTeclado(filas, columnas, "Introduce el número de minas: ");
 
         Tablero tablero = new Tablero(filas, columnas, minas);
 
@@ -17,15 +14,20 @@ public class Buscaminas {
 
             tablero.imprimirTablero();
 
-            System.out.print("Introduce la fila: ");
-            int fila = pedirNumeroPorTecladoValidado(filas);
-            System.out.print("Introduce la columna: ");
-            int columna = pedirNumeroPorTecladoValidado(columnas);
+            int fila = pedirNumeroPorTecladoValidado(filas, "Introduce la fila: ");
+            int columna = pedirNumeroPorTecladoValidado(columnas, "Introduce la columna: ");
 
-            if (tablero.getCasillas(fila, columna).isMina()) {
+            if(tablero.getCasilla(fila, columna).isDescubierta()) {
+
+                System.out.println("\nLa casilla ya está descubierta, favor de introducir otra casilla\n");
+                continue;
+
+            }
+
+            if (tablero.getCasilla(fila, columna).isMina()) {
 
                 tablero.imprimirTableroPerdio();
-                System.out.println("Has perdido");
+                System.out.println("\nHas perdido\n");
                 break;
 
             }
@@ -35,7 +37,7 @@ public class Buscaminas {
             if(tablero.ganoPartida()) {
                     
                 tablero.imprimirTablero();
-                System.out.println("Has ganado");
+                System.out.println("\nHas ganado\n");
                 break;
 
             }
@@ -44,13 +46,15 @@ public class Buscaminas {
 
     }
 
-    public static int pedirNumeroPorTeclado() {
+    public static int pedirNumeroPorTeclado(String mensaje) {
 
         Scanner entrada = new Scanner(System.in);
 
         int numero = 0;
 
         while(true) {
+            
+            System.out.print(mensaje);
 
             try {
 
@@ -58,7 +62,7 @@ public class Buscaminas {
 
                 if(numero <= 0) {
                         
-                    System.out.println("Introduce un número mayor que 0");
+                    System.out.println("\nIntroduce un número mayor que 0\n");
                     continue;
                 }
 
@@ -66,7 +70,7 @@ public class Buscaminas {
     
             } catch (Exception e) {
         
-                    System.out.println("Introduce un número válido");
+                    System.out.println("\nIntroduce un número válido\n");
     
             }
 
@@ -76,21 +80,23 @@ public class Buscaminas {
 
     }
 
-    public static int pedirNumeroPorTecladoValidado(int filaColumna) {
+    public static int pedirNumeroMinasPorTeclado(int filas, int columnas, String mensaje) {
 
         Scanner entrada = new Scanner(System.in);
 
         int numero = 0;
 
         while(true) {
+            
+            System.out.print(mensaje);
 
             try {
 
                 numero = Integer.parseInt(entrada.nextLine());
 
-                if(numero < 0 || numero >= filaColumna) {
+                if(numero <= 0 || numero >= (filas * columnas)) {
                         
-                    System.out.println("Introduce un número entre 0 y " + (filaColumna - 1));
+                    System.out.println("\nIntroduce un número mayor que 0 y menor que " + (filas * columnas) + "\n");
                     continue;
                 }
 
@@ -98,13 +104,47 @@ public class Buscaminas {
     
             } catch (Exception e) {
         
-                    System.out.println("Introduce un número válido");
+                    System.out.println("\nIntroduce un número válido\n");
     
             }
 
         }
 
         return numero;
+
+    }
+
+    public static int pedirNumeroPorTecladoValidado(int filaColumna, String mensaje) {
+
+        Scanner entrada = new Scanner(System.in);
+
+        int numero = 0;
+
+        while(true) {
+
+            System.out.print(mensaje);
+
+            try {
+
+                numero = Integer.parseInt(entrada.nextLine());
+
+                if((numero - 1) < 0 || (numero - 1) >= filaColumna) {
+                        
+                    System.out.println("\nIntroduce un número entre 1 y " + filaColumna +"\n");
+                    continue;
+                }
+
+                break;
+    
+            } catch (Exception e) {
+        
+                    System.out.println("\nIntroduce un número válidon\n");
+    
+            }
+
+        }
+
+        return numero - 1;
 
     }
     

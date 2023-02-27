@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class Tablero {
 
-    private Casillas[][] casillas;
-    private ArrayList<Casillas> minas;
+    private Casilla[][] casillas;
+    private ArrayList<Casilla> minas;
     private int filas;
     private int columnas;
     private int numeroMinas;
@@ -13,8 +13,8 @@ public class Tablero {
         this.filas = filas;
         this.columnas = columnas;
         this.numeroMinas = numeroMinas;
-        this.casillas = new Casillas[filas][columnas];
-        this.minas = new ArrayList<Casillas>();
+        this.casillas = new Casilla[filas][columnas];
+        this.minas = new ArrayList<Casilla>();
         generarTablero();
         generarMinas();
         generarNumerosAlrededor();
@@ -27,7 +27,7 @@ public class Tablero {
 
             for (int j = 0; j < columnas; j++) {
 
-                casillas[i][j] = new Casillas(i, j, false, 0, false, 'O');
+                casillas[i][j] = new Casilla(i, j, false, 0, false, 'O');
 
             }
 
@@ -66,9 +66,9 @@ public class Tablero {
 
                 if (casillas[i][j].isMina()) {
 
-                    ArrayList<Casillas> casillasAlrededor = obtenerCasillasAlrededor(i, j);
+                    ArrayList<Casilla> casillasAlrededor = obtenerCasillasAlrededor(i, j);
 
-                    for (Casillas casilla : casillasAlrededor) {
+                    for (Casilla casilla : casillasAlrededor) {
 
                         if(casilla.isMina())
                             continue;
@@ -86,9 +86,9 @@ public class Tablero {
 
     }
 
-    private ArrayList<Casillas> obtenerCasillasAlrededor(int fila, int columna) {
+    private ArrayList<Casilla> obtenerCasillasAlrededor(int fila, int columna) {
 
-        ArrayList<Casillas> casillasAlrededor = new ArrayList<Casillas>();
+        ArrayList<Casilla> casillasAlrededor = new ArrayList<Casilla>();
 
         for(int i = 0; i < 8; i++) {
 
@@ -152,6 +152,13 @@ public class Tablero {
 
         for (int i = 0; i < filas; i++) {
 
+            // Imprimir numeros de columnas
+            if(i == 0) {
+
+                imprimirColumnas();
+
+            }
+
             for (int j = 0; j < columnas; j++) {
 
                 if(!casillas[i][j].isDescubierta())
@@ -160,6 +167,9 @@ public class Tablero {
                     System.out.print(casillas[i][j].getSimbolo() + " ");
 
             }
+
+            // Imprimir número de filas
+            System.out.print("  " + (i + 1));
 
             System.out.println();
 
@@ -170,6 +180,13 @@ public class Tablero {
     public void imprimirTableroPerdio() {
 
         for (int i = 0; i < filas; i++) {
+
+            // Imprimir numeros de columnas
+            if(i == 0) {
+
+                imprimirColumnas();
+
+            }
 
             for (int j = 0; j < columnas; j++) {
 
@@ -182,9 +199,24 @@ public class Tablero {
 
             }
 
+            // Imprimir número de filas
+            System.out.print("  " + (i + 1));
+
             System.out.println();
 
         }
+
+    }
+
+    private void imprimirColumnas() {
+
+        for (int j = 1; j < columnas + 1; j++) {
+
+            System.out.print(j + " ");
+
+        }
+
+        System.out.println("\n");
 
     }
 
@@ -211,9 +243,9 @@ public class Tablero {
 
         }
 
-        ArrayList<Casillas> casillasAlrededor = obtenerCasillasAlrededor(fila, columna);
+        ArrayList<Casilla> casillasAlrededor = obtenerCasillasAlrededor(fila, columna);
 
-        for (Casillas casilla : casillasAlrededor) {
+        for (Casilla casilla : casillasAlrededor) {
 
             if (!casilla.isDescubierta()) {
 
@@ -245,7 +277,7 @@ public class Tablero {
 
     }
 
-    public Casillas getCasillas(int fila, int columna) {
+    public Casilla getCasilla(int fila, int columna) {
 
         return casillas[fila][columna];
 

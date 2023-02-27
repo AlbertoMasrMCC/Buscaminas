@@ -1,4 +1,4 @@
-public class Casillas {
+public class Casilla {
 
     private int fila;
     private int columna;
@@ -7,7 +7,7 @@ public class Casillas {
     private boolean descubierta;
     private char simbolo;
 
-    public Casillas(int fila, int columna, boolean mina, int numeroMinasAlrededor, boolean descubierta, char simbolo) {
+    public Casilla(int fila, int columna, boolean mina, int numeroMinasAlrededor, boolean descubierta, char simbolo) {
 
         this.fila = fila;
         this.columna = columna;
